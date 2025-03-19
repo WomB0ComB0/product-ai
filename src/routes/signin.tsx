@@ -1,10 +1,17 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { type ComponentProps } from "react";
-import authClient from "~/lib/auth-client";
-import { Button } from "~/lib/components/ui/button";
-import { cn } from "~/lib/utils";
+"use client"
 
-const REDIRECT_URL = "/dashboard";
+import type React from "react"
+
+import { createFileRoute, redirect } from "@tanstack/react-router"
+import type { ComponentProps } from "react"
+import { Github, DiscIcon as Discord, Mail } from "lucide-react"
+import authClient from "~/lib/auth-client"
+import { cn } from "~/lib/utils"
+import { Logo } from "~/components/logo"
+import { Card, CardContent, CardFooter, CardHeader } from "~/lib/components/ui/card"
+import { Button } from "~/lib/components/ui/button"
+
+const REDIRECT_URL = "/dashboard"
 
 export const Route = createFileRoute("/signin")({
   component: AuthPage,
@@ -12,44 +19,60 @@ export const Route = createFileRoute("/signin")({
     if (context.user) {
       throw redirect({
         to: REDIRECT_URL,
-      });
+      })
     }
   },
-});
+})
 
 function AuthPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="flex flex-col items-center gap-8 rounded-xl border bg-card p-10">
-        Logo here
-        <div className="flex flex-col gap-2">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-900 dark:to-gray-800">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <Logo />
+          <h1 className="mt-6 text-2xl font-semibold">Welcome back</h1>
+          <p className="text-sm text-muted-foreground">Sign in to your account</p>
+        </CardHeader>
+        <CardContent className="space-y-4">
           <SignInButton
             provider="discord"
             label="Discord"
-            className="bg-[#5865F2] hover:bg-[#5865F2]/80"
+            icon={Discord}
+            className="w-full bg-[#5865F2] text-white hover:bg-[#5865F2]/90"
           />
           <SignInButton
             provider="github"
             label="GitHub"
-            className="bg-neutral-700 hover:bg-neutral-700/80"
+            icon={Github}
+            className="w-full bg-[#24292e] text-white hover:bg-[#24292e]/90"
           />
           <SignInButton
             provider="google"
             label="Google"
-            className="bg-[#DB4437] hover:bg-[#DB4437]/80"
+            icon={Mail}
+            className="w-full bg-white text-black hover:bg-gray-100"
           />
-        </div>
-      </div>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-muted-foreground">
+            Don't have an account?{" "}
+            <a href="#" className="font-medium text-primary hover:underline">
+              Sign up
+            </a>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
-  );
+  )
 }
 
 interface SignInButtonProps extends ComponentProps<typeof Button> {
-  provider: "discord" | "google" | "github";
-  label: string;
+  provider: "discord" | "google" | "github"
+  label: string
+  icon: React.ElementType
 }
 
-function SignInButton({ provider, label, className, ...props }: SignInButtonProps) {
+function SignInButton({ provider, label, icon: Icon, className, ...props }: SignInButtonProps) {
   return (
     <Button
       onClick={() =>
@@ -59,12 +82,13 @@ function SignInButton({ provider, label, className, ...props }: SignInButtonProp
         })
       }
       type="button"
-      variant="outline"
       size="lg"
-      className={cn("text-white hover:text-white", className)}
+      className={cn("flex items-center justify-center space-x-2", className)}
       {...props}
     >
-      Sign in with {label}
+      <Icon className="h-5 w-5" />
+      <span>Sign in with {label}</span>
     </Button>
-  );
+  )
 }
+
