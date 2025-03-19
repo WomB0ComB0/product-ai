@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { Brain, Target, Zap, Sparkles } from "lucide-react";
 import authClient from "~/lib/auth-client";
-import ThemeToggle from "~/lib/components/ThemeToggle";
+import ThemeToggle from "~/lib/components/theme-toggle";
 import { Button } from "~/lib/components/ui/button";
 
 export const Route = createFileRoute("/")({

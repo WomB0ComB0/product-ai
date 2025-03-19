@@ -1,5 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Brain, CheckCircle, Clock } from 'lucide-react';
+import { AppSidebar } from "~/lib/components/app-sidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "~/lib/components/ui/breadcrumb"
+import { Separator } from "~/lib/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "~/lib/components/ui/sidebar"
 
 type Metric = {
   title: string;
@@ -32,67 +48,38 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function DashboardIndex() {
-  const handleNewProject = () => {
-    // Implement new project creation logic
-    console.log('New project clicked');
-  };
-
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Product Dashboard</h1>
-        <button
-          onClick={handleNewProject}
-          className="rounded-lg bg-indigo-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-indigo-700"
-          aria-label="Create new project"
-        >
-          New Project
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {metrics.map((metric, index) => (
-          <div key={index} className="rounded-lg bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
-              <metric.icon className="h-8 w-8 text-indigo-600" />
-              <span className={`text-sm font-medium ${metric.trend.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
-                {metric.trend}
-              </span>
-            </div>
-            <h3 className="text-sm text-gray-500">{metric.title}</h3>
-            <p className="text-2xl font-bold text-gray-800">{metric.value}</p>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">
+                    Building Your Application
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-lg bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-800">AI Insights</h2>
-          <div className="space-y-4">
-            {insights.map((insight, index) => (
-              <div key={index} className="flex items-start space-x-3 rounded-lg bg-gray-50 p-3">
-                <Brain className="mt-0.5 h-5 w-5 text-indigo-600" />
-                <p className="text-sm text-gray-600">{insight}</p>
-              </div>
-            ))}
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div>
-
-        <div className="rounded-lg bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-800">Upcoming Deadlines</h2>
-          <div className="space-y-4">
-            {deadlines.map((deadline, index) => (
-              <div key={index} className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
-                <div className="flex items-center space-x-3">
-                  <Clock className="h-5 w-5 text-indigo-600" />
-                  <span className="text-sm text-gray-800">{deadline.task}</span>
-                </div>
-                <span className="text-sm text-gray-500">{deadline.date}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+      </SidebarInset>
+    </SidebarProvider>
+  )
 }

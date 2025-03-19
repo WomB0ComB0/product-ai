@@ -7,7 +7,7 @@ import type { ComponentProps } from "react"
 import { Github, DiscIcon as Discord, Mail } from "lucide-react"
 import authClient from "~/lib/auth-client"
 import { cn } from "~/lib/utils"
-import { Logo } from "~/components/logo"
+import { Logo } from "~/lib/components/logo"
 import { Card, CardContent, CardFooter, CardHeader } from "~/lib/components/ui/card"
 import { Button } from "~/lib/components/ui/button"
 

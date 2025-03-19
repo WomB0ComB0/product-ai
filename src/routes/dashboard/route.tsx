@@ -1,5 +1,4 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
-import Sidebar from "~/lib/components/Sidebar";
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardLayout,
@@ -17,7 +16,6 @@ export const Route = createFileRoute("/dashboard")({
 function DashboardLayout() {
   return (
     <div className="flex h-screen bg-gray-50">
-      <Sidebar />
       <main className="flex-1 overflow-x-hidden overflow-y-auto">
         <Outlet />
       </main>

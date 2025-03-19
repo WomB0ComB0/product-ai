@@ -20,3 +20,8 @@ dist
 
 # docker-compose db
 db
+
+# million
+.million
+
+app.config.timestamp_*.js

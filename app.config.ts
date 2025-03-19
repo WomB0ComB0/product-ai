@@ -1,6 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "@tanstack/react-start/config";
 import tsConfigPaths from "vite-tsconfig-paths";
+import MillionLint from "@million/lint";
 
 export default defineConfig({
   vite: {
@@ -9,6 +10,12 @@ export default defineConfig({
         projects: ["./tsconfig.json"],
       }),
       tailwindcss(),
+      MillionLint.vite({
+        rsc: true,
+        filter: {
+          include: ["src/**/*.{ts,tsx}"],
+        },
+      }),
     ],
   },
 
